@@ -110,7 +110,7 @@ class EdfParer extends GenericEdfParser {
             lines.push(buffer.slice(0, search));
             buffer = buffer.slice(search + delimiter.length, buffer.length);
         }
-        lines.push(buffer);
+        buffer.length && lines.push(buffer);
         return lines;
     }
 
@@ -124,10 +124,12 @@ class EdfParer extends GenericEdfParser {
             const [rawStart, rawDuration = Buffer.from([NUL])] = this.splitBuffer(onset, ONESET_DELIMITER);
             const start = parseFloat(rawStart.toString());
             const duration = parseFloat(rawDuration.toString());
-            signal.data.push({
-                time: start,
-                value: rawAnnotations.map(rawAnnotation => rawAnnotation.toString().trim()),
-                duration
+            rawAnnotations.forEach(rawAnnotation => {
+                signal.data.push({
+                    time: start,
+                    value: rawAnnotation.toString().trim(),
+                    duration
+                })
             });
         });
     }

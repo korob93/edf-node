@@ -29,7 +29,6 @@ describe('EdfParser', function () {
                 if (signal.data.length !== 42226) {
                     done("Must have 42226 data points");
                 }
-                console.log(edf);
                 done();
             });
     })

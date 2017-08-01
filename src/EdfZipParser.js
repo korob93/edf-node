@@ -3,7 +3,7 @@ const GenericEdfParser = require('./GenericEdfParser');
 const EdfParser = require('./EdfParser');
 
 const defaultOptions = {
-    filter: "^*\.edf$"
+    filter: /^.*\.edf$/
 };
 
 class EdfZipParser extends GenericEdfParser {
@@ -16,7 +16,7 @@ class EdfZipParser extends GenericEdfParser {
 
     async parseEntry(entry) {
         const raw = await new Promise(
-            (resolve, reject) => entry.readFileAsync(entry, (err, data) => {
+            (resolve, reject) => this.zip.readFileAsync(entry, (data, err) => {
                 err && reject(err);
                 resolve(data);
             })
@@ -33,9 +33,10 @@ class EdfZipParser extends GenericEdfParser {
         if (!this.data) {
             this.zip = new Zip(this.path);
             const filter = typeof this.options.filter === 'function'
-                ? this.options.filter : entry => filter.test(entry.entryName);
-            const edfEntries = this.zip.getEntries().filter(filter);
-            this.data = await Promsie.all(edfEntries.map(this.parseEntry.bind(this)));
+                ? this.options.filter : entry => this.options.filter.test(entry.entryName);
+            const entries = this.zip.getEntries();
+            const edfEntries = entries.filter(filter);
+            this.data = await Promise.all(edfEntries.map(this.parseEntry.bind(this)));
         }
         return this.data;
     }

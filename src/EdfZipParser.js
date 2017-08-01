@@ -1,4 +1,4 @@
-import Zip from 'adm-zip';
+const Zip = require('adm-zip');
 const GenericEdfParser = require('./GenericEdfParser');
 const EdfParser = require('./EdfParser');
 
@@ -22,7 +22,11 @@ class EdfZipParser extends GenericEdfParser {
             })
         );
         const parser = new EdfParser(raw);
-        return parser.parse();
+        return parser.parse()
+            .then(edf => ({
+                name: entry.entryName,
+                edf
+            }));
     }
 
     async parse() {

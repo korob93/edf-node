@@ -5,3 +5,5 @@ class GenericEdfParser {
     };
 
 }
+
+module.exports = GenericEdfParser;

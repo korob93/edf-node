@@ -1,19 +1,21 @@
 class Signal {
 
-    _label = null;
-    _transducerType = null;
-    _physicalDimensions = null;
-    _physicalMin = null;
-    _physicalMax = null;
-    _digitalMin = null;
-    _digitalMax = null;
-    _prefiltering = null;
-    _numSamplesInDataRecord = null;
-    _sampleDuration = null;
-    _sampleRate = null;
-    _bytesInDataRecord = null;
+    constructor(){
+        this.data = [];
 
-    data = [];
+        this._label = null;
+        this._transducerType = null;
+        this._physicalDimensions = null;
+        this._physicalMin = null;
+        this._physicalMax = null;
+        this._digitalMin = null;
+        this._digitalMax = null;
+        this._prefiltering = null;
+        this._numSamplesInDataRecord = null;
+        this._sampleDuration = null;
+        this._sampleRate = null;
+        this._bytesInDataRecord = null;
+    }
 
     get label() {
         return this._label;

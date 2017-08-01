@@ -5,19 +5,21 @@ const EDF_DATE_REGEX = /^.*(\d{2}-(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|D
 
 class Edf {
 
-    signals = [];
+    constructor() {
+        this.signals = [];
 
-    _version = null;
-    _patientId = null;
-    _recordingId = null;
-    _startDate = null;
-    _startTime = null;
-    _numberOfBytes = null;
-    _numDataRecords = null;
-    _durationOfDataRecord = null;
-    _numSignalsInDataRecord = null;
-    _bytesInDataRecord = null;
-    _numSamplesInDataRecord = null;
+        this._version = null;
+        this._patientId = null;
+        this._recordingId = null;
+        this._startDate = null;
+        this._startTime = null;
+        this._numberOfBytes = null;
+        this._numDataRecords = null;
+        this._durationOfDataRecord = null;
+        this._numSignalsInDataRecord = null;
+        this._bytesInDataRecord = null;
+        this._numSamplesInDataRecord = null;
+    }
 
     getSignals() {
         return this.signals;

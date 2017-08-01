@@ -10,6 +10,10 @@ const NUL = 0x0;
 const DC4 = 0x14;
 const NAK = 0x15;
 
+const TALS_DELIMITER = Buffer.from([DC4, NUL]);
+const ANNOTATIONS_DELIMITER = Buffer.from([DC4]);
+const ONESET_DELIMITER = Buffer.from([NAK]);
+
 const headerSpec = [
     { "name": "version", "length": 8 },
     { "name": "patientId", "length": 80 },
@@ -55,7 +59,7 @@ class EdfParer extends GenericEdfParser {
     async parseEdfHeaders() {
         let start = 0;
         headerSpec.forEach(spec => {
-            const end = offset + spec.length;
+            const end = start + spec.length;
             this.edf[spec.name] = this.raw.slice(start, end).toString().trim();
             start = end;
         });
@@ -77,7 +81,7 @@ class EdfParer extends GenericEdfParser {
         signalSpec.forEach(
             spec => this.edf.getSignals().forEach(signal => {
                 const end = start + spec.length;
-                signal[spec.name] = this.raw.slice(start, end);
+                signal[spec.name] = this.raw.slice(start, end).toString().trim();
                 start = end;
             })
         );
@@ -107,17 +111,17 @@ class EdfParer extends GenericEdfParser {
             buffer = buffer.slice(search + delimiter.length, buffer.length);
         }
         lines.push(buffer);
-
+        return lines;
     }
 
     async parseAnnotationSamples(signal, block) {
-        const tals = this.splitBuffer(block, [DC4, NUL]);
+        const tals = this.splitBuffer(block, TALS_DELIMITER);
         tals.forEach(tal => {
             if (tal.indexOf(DC4) < 0) {
                 return;
             }
-            const [onset, ...rawAnnotations] = this.splitBuffer(tal, DC4);
-            const [rawStart, rawDuration = Buffer.from([NUL])] = this.splitBuffer(onset, NAK);
+            const [onset, ...rawAnnotations] = this.splitBuffer(tal, ANNOTATIONS_DELIMITER);
+            const [rawStart, rawDuration = Buffer.from([NUL])] = this.splitBuffer(onset, ONESET_DELIMITER);
             const start = parseFloat(rawStart.toString());
             const duration = parseFloat(rawDuration.toString());
             signal.data.push({
@@ -130,16 +134,16 @@ class EdfParer extends GenericEdfParser {
 
     async parseDataRecord(dataRecord, timeOffset) {
         let start = 0;
-        this.edf.getSignals().forEach(signal => {
+        return Promise.all(this.edf.getSignals().map(signal => {
             const end = start + signal.bytesInDataRecord;
             const block = dataRecord.slice(start, end);
-            if (signal.label === EDF_ANNOTATIONS_LABEL) {
-                this.parseAnnotationSamples(signal, block);
-            } else {
-                this.parseSignalSamples(signal, block, timeOffset);
-            }
             start = end;
-        });
+            if (signal.label === EDF_ANNOTATIONS_LABEL) {
+                return this.parseAnnotationSamples(signal, block);
+            } else {
+                return this.parseSignalSamples(signal, block, timeOffset);
+            }
+        }));
     }
 
     async parseSignalData() {

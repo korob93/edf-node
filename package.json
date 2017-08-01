@@ -9,7 +9,7 @@
   ],
   "version": "0.0.1",
   "private": false,
-  "license": "BSD",
+  "license": "BSD-2-Clause",
   "contributors": [
     {
       "name": "Dmitry Vorobev",
@@ -21,8 +21,10 @@
     "type": "git",
     "url": "https://github.com/korob93/edf-node"
   },
-  "peerDependencies": {
-    "moment": "^2.18.1",
+  "dependencies": {
     "adm-zip": "^0.4.7"
+  },
+  "peerDependencies": {
+    "moment": "^2.18.1"
   }
 }

@@ -1,0 +1,28 @@
+{
+  "name": "edf-node",
+  "description": "European Data Format parser for nodejs",
+  "keywords": [
+    "edf",
+    "psg",
+    "parser",
+    "sleep"
+  ],
+  "version": "0.0.1",
+  "private": false,
+  "license": "BSD",
+  "contributors": [
+    {
+      "name": "Dmitry Vorobev",
+      "email": "dvorobevn@gmail.com"
+    }
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/korob93/edf-node"
+  },
+  "peerDependencies": {
+    "moment": "^2.18.1",
+    "adm-zip": "^0.4.7"
+  }
+}

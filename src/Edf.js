@@ -85,9 +85,9 @@ class Edf {
     set startTime(value) {
         let timeParts = value.split('.').map(part => parseInt(part, 10));
         this._startTime = moment(this.startDate).add(moment.duration({
-            "hours": timeParts[0],
-            "minutes": timeParts[1],
-            "seconds": timeParts[2]
+            hours: timeParts[0],
+            minutes: timeParts[1],
+            seconds: timeParts[2]
         })).toDate();
     }
 

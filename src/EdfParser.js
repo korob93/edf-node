@@ -2,6 +2,7 @@ const GenericEdfParser = require('./GenericEdfParser');
 const Edf = require('./Edf');
 const Signal = require('./Signal');
 const Buffer = require('buffer').Buffer;
+const moment = require('moment');
 
 const EDF_ANNOTATIONS_LABEL = 'EDF Annotations';
 const SAMPLE_BYTE_LENGTH = 2;
@@ -126,7 +127,9 @@ class EdfParer extends GenericEdfParser {
             const duration = parseFloat(rawDuration.toString());
             rawAnnotations.forEach(rawAnnotation => {
                 signal.data.push({
-                    time: start,
+                    time: moment(this.edf.startTime).add(moment.duration({
+                        seconds: start
+                    })),
                     value: rawAnnotation.toString().trim(),
                     duration
                 })

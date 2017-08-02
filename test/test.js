@@ -3,6 +3,7 @@ const fs = require('fs');
 const chai = require('chai');
 chai.should();
 chai.use(require('chai-things'));
+chai.use(require('chai-as-promised'));
 const EdfParser = require(path.resolve(__dirname, '../'));
 
 describe('EdfParser', function () {
@@ -46,5 +47,12 @@ describe('EdfParser', function () {
                 signal1.data.should.have.lengthOf(42226);
                 done();
             });
+    })
+    it("Should read test zip file and parse all edfs in it", function (done) {
+        this.timeout(25000);
+        const parser = new EdfParser.EdfZipParser(path.resolve(__dirname, './edf/edf1.zip'), {
+            filter: /^.*\.edf\+?$/
+        });
+        parser.parse().then(() => done()).catch(done);
     })
 });

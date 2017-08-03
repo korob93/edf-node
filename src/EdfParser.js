@@ -129,7 +129,7 @@ class EdfParer extends GenericEdfParser {
                 signal.data.push({
                     time: moment(this.edf.startTime).add(moment.duration({
                         seconds: start
-                    })),
+                    })).toDate(),
                     value: rawAnnotation.toString().trim(),
                     duration
                 })

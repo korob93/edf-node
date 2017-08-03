@@ -7,7 +7,7 @@
     "parser",
     "sleep"
   ],
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": false,
   "license": "BSD-2-Clause",
   "contributors": [
@@ -25,9 +25,7 @@
     "url": "https://github.com/korob93/edf-node"
   },
   "dependencies": {
-    "adm-zip": "^0.4.7"
-  },
-  "peerDependencies": {
+    "adm-zip": "^0.4.7",
     "moment": "^2.18.1"
   },
   "devDependencies": {

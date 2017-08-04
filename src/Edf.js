@@ -58,7 +58,7 @@ class Edf {
         if (match) {
             this._startDate = moment.utc(`${match[1]}`, 'DD-MMM-YYYY').toDate();
         } else {
-            const dateParts = _.map(value.split('.'), part => parseInt(part, 10));
+            const dateParts = value.split('.').map(part => parseInt(part, 10));
             let year = dateParts[2];
             if (year < 0 || year > 99) {
                 throw new Error('Invalid start date');

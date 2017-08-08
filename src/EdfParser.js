@@ -69,7 +69,6 @@ class EdfParer extends GenericEdfParser {
         signal.sampleDuration = this.edf.durationOfDataRecord / signal.numSamplesInDataRecord;
         signal.sampleRate = signal.numSamplesInDataRecord / this.edf.durationOfDataRecord;
         signal.bytesInDataRecord = signal.numSamplesInDataRecord * SAMPLE_BYTE_LENGTH;
-
     }
 
     async parseSignalHeaders() {

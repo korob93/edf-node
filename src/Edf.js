@@ -112,7 +112,7 @@ class Edf {
     }
 
     set durationOfDataRecord(value) {
-        this._durationOfDataRecord = parseInt(value, 10);
+        this._durationOfDataRecord = parseFloat(value);
     }
 
     get numSignalsInDataRecord() {

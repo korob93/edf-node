@@ -1,6 +1,6 @@
 class Signal {
 
-    constructor(){
+    constructor() {
         this.data = [];
 
         this._label = null;
@@ -46,7 +46,7 @@ class Signal {
     }
 
     set physicalMin(value) {
-        this._physicalMin = parseInt(value, 10);
+        this._physicalMin = parseFloat(value);
     }
 
     get physicalMax() {
@@ -54,7 +54,7 @@ class Signal {
     }
 
     set physicalMax(value) {
-        this._physicalMax = parseInt(value, 10);
+        this._physicalMax = parseFloat(value);
     }
 
     get digitalMin() {
@@ -94,7 +94,7 @@ class Signal {
     }
 
     set sampleDuration(value) {
-        this._sampleDuration = parseInt(value, 10);
+        this._sampleDuration = parseFloat(value);
     }
 
     get sampleRate() {
@@ -102,7 +102,7 @@ class Signal {
     }
 
     set sampleRate(value) {
-        this._sampleRate = parseInt(value, 10);
+        this._sampleRate = parseFloat(value);
     }
 
     get bytesInDataRecord() {

@@ -66,8 +66,8 @@ class EdfParer extends GenericEdfParser {
     }
 
     computeAdditionalSignalParams(signal) {
-        signal.sampleDuration = signal.numSamplesInDataRecord / this.edf.durationOfDataRecord;
-        signal.sampleRate = this.edf.durationOfDataRecord / signal.numSamplesInDataRecord;
+        signal.sampleDuration = this.edf.durationOfDataRecord / signal.numSamplesInDataRecord;
+        signal.sampleRate = signal.numSamplesInDataRecord / this.edf.durationOfDataRecord;
         signal.bytesInDataRecord = signal.numSamplesInDataRecord * SAMPLE_BYTE_LENGTH;
 
     }

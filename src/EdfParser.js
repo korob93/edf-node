@@ -91,12 +91,16 @@ class EdfParer extends GenericEdfParser {
     async parseSignalSamples(signal, block, timeOffset) {
         let offset = 0;
         for (let i = 0; i < signal.numSamplesInDataRecord; i++) {
-            const value = block.readInt16LE(offset);
-            signal.data.push({
-                time: new Date(this.edf.startTime.getTime() + (timeOffset + i * signal.sampleDuration) * 1000),
-                value
-            });
-            offset += SAMPLE_BYTE_LENGTH;
+            try {
+                const value = block.readInt16LE(offset);
+                signal.data.push({
+                    time: new Date(this.edf.startTime.getTime() + (timeOffset + i * signal.sampleDuration) * 1000),
+                    value
+                });
+                offset += SAMPLE_BYTE_LENGTH;
+            } catch (e) {
+                console.warn(`readInt16LE error: ${e.message}`);
+            }
         }
     }
 

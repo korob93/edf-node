@@ -71,7 +71,7 @@ class Edf {
             }
             this._startDate = moment.utc({
                 year,
-                month: dateParts[1],
+                month: dateParts[1] + 1,
                 day: dateParts[0]
             }).toDate();
         }

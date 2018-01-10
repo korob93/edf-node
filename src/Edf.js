@@ -1,12 +1,13 @@
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 
 const EDF_DATE_REGEX = /^.*(\d{2}-(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)-\d{4}).*$/;
 
 class Edf {
 
-    constructor() {
+    constructor(timezone) {
         this.signals = [];
+        this.timezone = timezone;
 
         this._version = null;
         this._patientId = null;
@@ -56,7 +57,7 @@ class Edf {
     set startDate(value) {
         let match = this.recordingId.match(EDF_DATE_REGEX);
         if (match) {
-            this._startDate = moment.utc(`${match[1]}`, 'DD-MMM-YYYY').toDate();
+            this._startDate = moment.tz(`${match[1]}`, 'DD-MMM-YYYY', this.timezone).toDate();
         } else {
             const dateParts = value.split('.').map(part => parseInt(part, 10));
             let year = dateParts[2];
@@ -69,11 +70,11 @@ class Edf {
             else {
                 year += 1900;
             }
-            this._startDate = moment.utc({
+            this._startDate = moment.tz({
                 year,
                 month: dateParts[1] - 1,
                 day: dateParts[0]
-            }).toDate();
+            }, this.timezone).toDate();
         }
 
     }

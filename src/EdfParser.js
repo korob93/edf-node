@@ -160,7 +160,7 @@ class EdfParer extends GenericEdfParser {
 
     async parse() {
         if (!this.edf) {
-            this.edf = new Edf();
+            this.edf = new Edf(this.timezone);
             await this.parseEdfHeaders();
             await this.parseSignalHeaders();
             await this.parseSignalData();

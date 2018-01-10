@@ -31,7 +31,7 @@ describe('EdfParser', function () {
             })
             .catch(done);
     });
-    it("Should read test edf file throw exception", function (done) {
+    it("Should read test edf file and throw exception", function (done) {
         const parser = new EdfParser.EdfFileParser(path.resolve(__dirname, './edf/0001.wmedf'));
         parser.parse().should.be.rejected.and.notify(done);
     });

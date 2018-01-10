@@ -22,6 +22,7 @@ class EdfZipParser extends GenericEdfParser {
             })
         );
         const parser = new EdfParser(raw);
+        parser.timezone = this.timezone;
         return parser.parse()
             .then(edf => ({
                 name: entry.entryName,

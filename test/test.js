@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const chai = require('chai');
+const moment = require('moment-timezone');
 chai.should();
 chai.use(require('chai-things'));
 chai.use(require('chai-as-promised'));
@@ -16,7 +17,8 @@ describe('EdfParser', function () {
                 const signal = edf.signals[0];
                 signal.data.should.have.lengthOf(42226);
                 done();
-            });
+            })
+            .catch(done);
     });
     it("Should read test edf file and parse it", function (done) {
         const parser = new EdfParser.EdfFileParser(path.resolve(__dirname, './edf/annotations.edf'));
@@ -26,7 +28,8 @@ describe('EdfParser', function () {
                 const signal = edf.signals[0];
                 signal.data.should.have.lengthOf(42226);
                 done();
-            });
+            })
+            .catch(done);
     });
     // it("Should read test edf file throw exception", function (done) {
     //     const parser = new EdfParser.EdfFileParser(path.resolve(__dirname, './edf/0001.wmedf'));
@@ -50,13 +53,27 @@ describe('EdfParser', function () {
                 const signal1 = edf1.signals[0];
                 signal1.data.should.have.lengthOf(42226);
                 done();
-            });
-    })
+            })
+            .catch(done);
+    });
     it("Should read test zip file and parse all edfs in it", function (done) {
         this.timeout(25000);
         const parser = new EdfParser.EdfZipParser(path.resolve(__dirname, './edf/edf1.zip'), {
             filter: /^.*\.edf\+?$/
         });
-        parser.parse().then(() => done()).catch(done);
+        parser.parse()
+            .then(() => done())
+            .catch(done);
+    });
+    it("Should respect provided timezone", function (done) {
+        const parser = new EdfParser.EdfFileParser(path.resolve(__dirname, './edf/annotations.edf'));
+        parser.timezone = 'CET';
+        parser.parse()
+            .then(edf => {
+                const same = moment(edf.startTime).isSame('2017-01-07T23:58:58.000Z');
+                same.should.be.true;
+                done();
+            })
+            .catch(done);
     })
 });

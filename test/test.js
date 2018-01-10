@@ -31,10 +31,10 @@ describe('EdfParser', function () {
             })
             .catch(done);
     });
-    // it("Should read test edf file throw exception", function (done) {
-    //     const parser = new EdfParser.EdfFileParser(path.resolve(__dirname, './edf/0001.wmedf'));
-    //     parser.parse().should.be.rejected.and.notify(done);
-    // });
+    it("Should successfully read test edf file", function (done) {
+        const parser = new EdfParser.EdfFileParser(path.resolve(__dirname, './edf/0001.wmedf'));
+        parser.parse().should.be.fulfilled.and.notify(done);
+    });
     it("Should read test zip file and parse all edfs in it", function (done) {
         const parser = new EdfParser.EdfZipParser(path.resolve(__dirname, './edf/edf.zip'), {
             filter: /^.*\.edf\+?$/
